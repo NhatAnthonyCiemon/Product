@@ -7,6 +7,6 @@ const config = {
     database: "freedb_productBTV",
 };
 
-const connect = mysql.createConnection(config);
+const connect = mysql.createConnection(config).promise();
 
 module.exports = connect;
