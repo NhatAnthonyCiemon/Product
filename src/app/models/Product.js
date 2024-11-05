@@ -3,14 +3,11 @@ const db = require("../../config/db");
 async function getProducts() {
     try {
         const [result] = await db.query("SELECT id, name, cost, image FROM Product");
-        console.log(result);
-        const products = [];
-        result.forEach(item => {
+        const products = result.map(item => {
             let { id, name, cost, image } = item;
             cost = cost.toLocaleString("vi", { style: "currency", currency: "VND" });
-            products.push({ id, name, cost, image });
+            return { id, name, cost, image };
         });
-        console.log(products);
         return products;
     } catch (err) {
         console.error("Lỗi khi truy vấn sản phẩm:", err);
@@ -18,14 +15,21 @@ async function getProducts() {
     }
 }
 
+// Hàm lấy sản phẩm theo id
+async function getProductById(id) {
+    try {
+        const [result] = await db.query("SELECT id, name, cost, image FROM Product WHERE id = ?", [id]);
+        console.log(result);
+        if (result.length === 0) {
+            return null; // Không tìm thấy sản phẩm
+        }
+        let { name, cost, image } = result[0];
+        cost = cost.toLocaleString("vi", { style: "currency", currency: "VND" });
+        return { id, name, cost, image };
+    } catch (err) {
+        console.error("Lỗi khi truy vấn sản phẩm theo ID:", err);
+        throw err;
+    }
+}
 
-const products = {
-    index: async () => {   
-    },
-
-    detail: async (object) => {
-        // Truy cập dữ liệu chi tiết từ database
-    },
-};
-
-module.exports ={getProducts};
+module.exports = { getProducts, getProductById };
