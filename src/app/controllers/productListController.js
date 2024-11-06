@@ -8,7 +8,7 @@ const productListController = {
         products = await getProducts();
 
         console.log(products);
-        res.render("productList", {
+        res.render("productlist", {
             title: "Product List",
             productList: true,
             products,
@@ -23,7 +23,7 @@ const productListController = {
             return res.status(404).send("Product not found");
         }
 
-        res.render("productDetail", { product, user: req.session.user });
+        res.render("productdetail", { product, user: req.session.user });
     },
 
     async destroy(req, res) {
