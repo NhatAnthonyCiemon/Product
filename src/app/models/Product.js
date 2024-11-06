@@ -17,10 +17,8 @@ async function getProducts() {
         throw err;
     }
 }
-
-
 const products = {
-    index: async () => {   
+    index: async (object) => {   
     },
 
     detail: async (object) => {
@@ -29,3 +27,4 @@ const products = {
 };
 
 module.exports ={getProducts};
+
