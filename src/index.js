@@ -26,3 +26,8 @@ route(app);
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
+
+
+module.exports = (req, res) => {
+    app(req, res); // Vercel gọi hàm này để xử lý yêu cầu
+  };
