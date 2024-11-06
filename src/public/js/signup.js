@@ -1,11 +1,20 @@
 const btn_submit = document.querySelector(".btn");
 
+function checkValidEmail(email) {
+    //mẫu là phải có @ và . và không có khoảng trắng
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return emailPattern.test(email);
+}
+
 function checkValidInput(name, email, password, repassword) {
     if (name == "") {
         alert("Vui lòng nhập tên");
         return false;
     } else if (email == "") {
         alert("Vui lòng nhập email");
+        return false;
+    } else if (!checkValidEmail(email)) {
+        alert("Email không hợp lệ");
         return false;
     } else if (password == "") {
         alert("Vui lòng nhập mật khẩu");

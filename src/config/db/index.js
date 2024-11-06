@@ -1,12 +1,23 @@
-const mysql = require("mysql2");
+const { Sequelize } = require("sequelize");
 
-const config = {
-    host: "sql.freedb.tech",
-    user: "freedb_productBTVN",
-    password: "w5RXf#XsmdQ#XC4",
-    database: "freedb_productBTV",
-};
+const sequelize = new Sequelize(
+    "freedb_productBTV",
+    "freedb_productBTVN",
+    "w5RXf#XsmdQ#XC4",
+    {
+        host: "sql.freedb.tech", // Địa chỉ host của MySQL
+        dialect: "mysql", // Chọn dialect cho MySQL
+        logging: false, // Tắt logging SQL (tuỳ chọn)
+    }
+);
 
-const connect = mysql.createConnection(config).promise();
+sequelize
+    .authenticate()
+    .then(() => {
+        console.log("Connection has been established successfully.");
+    })
+    .catch((error) => {
+        console.error("Unable to connect to the database:", error);
+    });
 
-module.exports = connect;
+module.exports = sequelize;

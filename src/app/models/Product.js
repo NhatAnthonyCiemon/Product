@@ -1,30 +1,32 @@
-const db = require("../../config/db");
+const { DataTypes } = require("sequelize");
+const sequelize = require("../../config/db"); // Đường dẫn tới file kết nối
 
-async function getProducts() {
-    try {
-        const [result] = await db.query("SELECT id, name, cost, image FROM Product");
-        console.log(result);
-        const products = [];
-        result.forEach(item => {
-            let { id, name, cost, image } = item;
-            cost = cost.toLocaleString("vi", { style: "currency", currency: "VND" });
-            products.push({ id, name, cost, image });
-        });
-        console.log(products);
-        return products;
-    } catch (err) {
-        console.error("Lỗi khi truy vấn sản phẩm:", err);
-        throw err;
+const product = sequelize.define(
+    "product",
+    {
+        // Định nghĩa các cột tương ứng với bảng trong cơ sở dữ liệu
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+        },
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        cost: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        image: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+    },
+    {
+        tableName: "Product", // Tên bảng trong cơ sở dữ liệu
+        timestamps: false,
     }
-}
-const products = {
-    index: async (object) => {   
-    },
+);
 
-    detail: async (object) => {
-        // Truy cập dữ liệu chi tiết từ database
-    },
-};
-
-module.exports ={getProducts};
-
+module.exports = product;

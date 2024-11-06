@@ -1,5 +1,4 @@
-const e = require("express");
-const Login = require("../models/Login");
+const LoginService = require("../services/LoginService");
 
 const loginController = {
     index: (req, res) => {
@@ -9,12 +8,12 @@ const loginController = {
         const { email, password } = req.body;
         const user = { email, password };
         try {
-            const result = await Login.login(user);
+            const result = await LoginService.login(user);
             if (!result) {
                 res.status(400).json({ error: "!!!Email không tồn tại!!!" });
                 return;
             }
-            req.session.user = result;
+            req.session.user = result.name;
             //session cookie
             res.status(201).json({ error: null });
         } catch (err) {

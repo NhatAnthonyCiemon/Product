@@ -1,30 +1,36 @@
 //const {getProducts} = require("../models/Product");
 //const product = require('../models/product1')
- const {getProducts} = require('../services/productService');
+const e = require("express");
+const { getProducts, getProductById } = require("../services/productService");
 const productListController = {
     async index(req, res) {
-        //const products = await getProducts();
-        //const result = await product.findAll();
-
-        // const products = [];
-        // result.forEach(item => {
-        //     let { id, name, cost, image } = item;
-        //     cost = cost.toLocaleString("vi", { style: "currency", currency: "VND" });
-        //     products.push({ id, name, cost, image });
-        // });
         let products = [];
         products = await getProducts();
 
         console.log(products);
-        res.render("productList", { title: "Product List",productList: true ,products});
+        res.render("productList", {
+            title: "Product List",
+            productList: true,
+            products,
+            user: req.session.user,
+        });
     },
-    showDetail(req, res) {
-        const {id} = req.params;
-        console.log(id);
-        //const product = products.find(product => product.id === id);
-        res.render("productDetail", {title: "Product List", id});
-        
-    }
+    async showDetail(req, res) {
+        const { id } = req.params;
+        const product = await getProductById(id); // Lấy sản phẩm theo ID
+
+        if (!product) {
+            return res.status(404).send("Product not found");
+        }
+
+        res.render("productDetail", { product, user: req.session.user });
+    },
+
+    async destroy(req, res) {
+        //xóa session
+        req.session.destroy();
+        res.redirect("/");
+    },
 };
 
-module.exports =productListController;
+module.exports = productListController;

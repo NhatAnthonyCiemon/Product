@@ -1,4 +1,4 @@
-const Signup = require("../models/Signup");
+const SignupService = require("../services/SignUpService");
 
 const SignupController = {
     index(req, res) {
@@ -9,13 +9,13 @@ const SignupController = {
         const { name, email, password } = req.body;
         const user = { name, email, password };
         try {
-            const result = await Signup.create(user);
+            const result = await SignupService.create(user);
             if (!result) {
                 console.log("Error");
                 res.status(400).json({ error: "Error" });
                 return;
             }
-            console.log("Success");
+            req.session.user = name;
             res.status(201).json({ error: null });
         } catch (err) {
             res.status(400).json({ error: err });

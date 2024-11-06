@@ -17,4 +17,6 @@ if (user) {
     p.classList.add("User");
     //thêm thẻ p bên cạnh ul node anh em
     ul.insertAdjacentElement("afterend", p);
+    //xóa thẻ user
+    user.remove();
 }
