@@ -8,7 +8,7 @@ const productListController = {
         products = await getProducts();
 
         console.log(products);
-        res.render("productlist", {
+        res.render("product", {
             title: "Product List",
             productList: true,
             products,
